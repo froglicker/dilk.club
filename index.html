@@ -3,69 +3,115 @@
 <head>
   <meta charset="utf-8">
   <title>dilk</title>
-  <link rel="shortcut icon" type="image/png" href="img/favicon.png">
   <meta name="description" content="dilk">
   <meta name="author" content="dilk">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="img/favicon.png">
   <style>
-    body, html {
+    html, body {
       height: 100%;
       margin: 0;
       overflow: hidden;
     }
+
     .bg {
       height: 100%;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
     }
+
     .egg {
       position: fixed;
       cursor: pointer;
       user-select: none;
       z-index: 10001;
     }
+
     .logo {
-      margin-left: auto;
-      margin-right: auto;
       position: fixed;
       left: 50%;
       top: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) scale(0.5);
       z-index: 10002;
+      margin: 0 auto;
+      width: 50%;
     }
+
     .centered-button {
       position: fixed;
       bottom: 175px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10001;
+      text-align: center;
     }
 
     .centered-button button {
-      padding: 10px 20px;
+      padding: 12px 24px;
       font-size: 16px;
-      transition: transform 0.3s;
+      border: none;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, background 0.3s;
+      cursor: pointer;
     }
 
     .centered-button button:hover {
       transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .hover-image-container {
+      margin-top: 80px;
+    }
+
+    .hover-image {
+      width: 50px;
+      transition: transform 0.3s ease;
+    }
+
+    .hover-image:hover {
+      transform: scale(1.5);
+    }
+
+    @media (max-width: 768px) {
+      .egg {
+        width: 16% !important;
+      }
     }
   </style>
 </head>
 <body>
   <div class="bg" id="backgroundDiv">
-    <img src="img/logo.png" alt="Logo" class="logo" style="width: 50%;">
+    <img src="img/logo.gif" alt="Logo" class="logo">
+    
     <div class="centered-button">
       <button id="randomButton" onclick="window.location.href='https://discord.gg/7xfARtcPNR';" onmouseover="playAudio()">Join Discord</button>
+      
+      <div class="hover-image-container">
+        <a href="https://mc.dilk.club" target="_blank">
+          <img src="img/mc.png" alt="Clickable Image" class="hover-image">
+        </a>
+      </div>
     </div>
+
     <audio id="audio" src="do_it.mp3"></audio>
-	</div>
-  <script type="text/javascript">
+  </div>
+
+  <script>
     document.addEventListener('contextmenu', event => event.preventDefault());
 
     const numberOfEggs = 9;
     const eggs = [];
+
+    const isMobile = window.innerWidth <= 768;
+    const eggSize = isMobile ? 16 : 3; // Increased size for mobile
+    const speed = isMobile ? 2 : 6;
 
     function createEggs() {
       for (let i = 0; i < numberOfEggs; i++) {
@@ -73,14 +119,15 @@
         egg.src = `img/head${i + 1}.png`;
         egg.alt = 'Egg';
         egg.className = 'egg';
-        egg.style.width = '3%';
+        egg.style.width = `${eggSize}%`;
         document.body.appendChild(egg);
+
         eggs.push({
           element: egg,
           x: Math.random() * (window.innerWidth - egg.clientWidth),
           y: Math.random() * (window.innerHeight - egg.clientHeight),
-          xSpeed: 6,
-          ySpeed: 6
+          xSpeed: speed * (Math.random() > 0.5 ? 1 : -1),
+          ySpeed: speed * (Math.random() > 0.5 ? 1 : -1)
         });
       }
     }
@@ -91,37 +138,45 @@
         egg.y += egg.ySpeed;
 
         if (egg.x < 0 || egg.x > window.innerWidth - egg.element.clientWidth) {
-          egg.xSpeed = -egg.xSpeed;
+          egg.xSpeed *= -1;
         }
 
         if (egg.y < 0 || egg.y > window.innerHeight - egg.element.clientHeight) {
-          egg.ySpeed = -egg.ySpeed;
+          egg.ySpeed *= -1;
         }
 
-        egg.element.style.left = egg.x + 'px';
-        egg.element.style.top = egg.y + 'px';
+        egg.element.style.left = `${egg.x}px`;
+        egg.element.style.top = `${egg.y}px`;
       });
     }
 
-    createEggs();
-    setInterval(updateEggPosition, 5);
-
     function getRandomButtonText() {
-      const buttonTexts = ["drink the dilk", "dive into the dilk", "gargle the dilk", "become one with the dilk", "follow the dilk", "snort some dilk", "bathe in the dilk"];
+      const buttonTexts = [
+        "drink the dilk",
+        "dive into the dilk",
+        "gargle the dilk",
+        "become one with the dilk",
+        "follow the dilk",
+        "snort some dilk",
+        "bathe in the dilk"
+      ];
       return buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
     }
-
-    document.getElementById('randomButton').innerText = getRandomButtonText();
-
-    const backgroundDiv = document.getElementById('backgroundDiv');
-    const backgroundImages = ["img/bg1.jpeg", "img/bg2.jpeg", "img/bg3.jpeg"];
-    const randomBackground = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-    backgroundDiv.style.backgroundImage = `url('${randomBackground}')`;
 
     function playAudio() {
       const audio = document.getElementById('audio');
       audio.play();
     }
+
+    // Initialization
+    createEggs();
+    setInterval(updateEggPosition, 20);
+
+    document.getElementById('randomButton').innerText = getRandomButtonText();
+
+    const backgroundImages = ["img/bg1.jpeg", "img/bg2.jpeg", "img/bg3.jpeg"];
+    const randomBackground = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+    document.getElementById('backgroundDiv').style.backgroundImage = `url('${randomBackground}')`;
   </script>
 </body>
 </html>
