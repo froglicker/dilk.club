@@ -1,182 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>dilk</title>
-  <meta name="description" content="dilk">
-  <meta name="author" content="dilk">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+  <link rel="icon" type="image/png" href="img/favicon.png" sizes="16x16">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MC - dilk.club</title>
   <style>
-    html, body {
-      height: 100%;
+    * {
+      box-sizing: border-box;
       margin: 0;
-      overflow: hidden;
+      padding: 0;
+      font-family: Arial, sans-serif;
     }
 
-    .bg {
+    body, html {
       height: 100%;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
     }
 
-    .egg {
-      position: fixed;
-      cursor: pointer;
-      user-select: none;
-      z-index: 10001;
+    .site-background {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
     }
 
     .logo {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) scale(0.5);
-      z-index: 10002;
-      margin: 0 auto;
-      width: 50%;
+      margin-bottom: 10px;
     }
 
-    .centered-button {
-      position: fixed;
-      bottom: 175px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10001;
-      text-align: center;
+    .logo img {
+      max-width: 200px;
+      height: auto;
     }
 
-    .centered-button button {
-      padding: 12px 24px;
-      font-size: 16px;
-      border: none;
-      border-radius: 20px;
+    nav {
+      margin-bottom: 15px;
+    }
+
+    .tab-button {
       background: rgba(255, 255, 255, 0.15);
       color: white;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s, background 0.3s;
+      padding: 10px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
       cursor: pointer;
+      margin: 0 5px;
+      border-radius: 5px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: background 0.3s ease;
     }
 
-    .centered-button button:hover {
-      transform: scale(1.1);
+    .tab-button:hover {
       background: rgba(255, 255, 255, 0.25);
     }
 
-    .hover-image-container {
-      margin-top: 80px;
+    .tab-content {
+      display: none;
+      max-width: 800px;
+      width: 90%;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      margin-bottom: 20px;
+      color: white;
     }
 
-    .hover-image {
-      width: 50px;
-      transition: transform 0.3s ease;
+    .tab-content.active {
+      display: block;
     }
 
-    .hover-image:hover {
-      transform: scale(1.5);
+    .placeholder-img {
+      width: 100%;
+      height: 200px;
+      background-color: rgba(200, 200, 200, 0.2);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #eee;
+      font-size: 18px;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border-radius: 10px;
     }
 
-    @media (max-width: 768px) {
-      .egg {
-        width: 16% !important;
+    .responsive-image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .home-title {
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .tab-button {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+
+      .logo img {
+        max-width: 150px;
       }
     }
+
+    .bottom-image-wrapper {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hover-expand-image {
+      width: 100px;
+      height: auto;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .hover-expand-image:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+	
+	#leaderboard-content {
+		text-align: center;
+	}
+
   </style>
 </head>
 <body>
-  <div class="bg" id="backgroundDiv">
-    <img src="img/logo.gif" alt="Logo" class="logo">
-    
-    <div class="centered-button">
-      <button id="randomButton" onclick="window.location.href='https://discord.gg/7xfARtcPNR';" onmouseover="playAudio()">Join Discord</button>
-      
-      <div class="hover-image-container">
-        <a href="https://mc.dilk.club" target="_blank">
-          <img src="img/mc.png" alt="Clickable Image" class="hover-image">
+  <div class="site-background">
+    <div class="logo">
+      <img src="img/dilk.gif" alt="Site Logo">
+    </div>
+
+    <nav>
+      <button class="tab-button" onclick="showTab('tab1')">Home</button>
+	  <button class="tab-button" onclick="showTab('tab2')">Leaderboard</button>
+      <button class="tab-button" onclick="showTab('tab3')">Game Objectives</button>
+      <button class="tab-button" onclick="showTab('tab4')">Rules</button>
+    </nav>
+
+    <div id="tab1" class="tab-content active">
+      <h2 class="home-title">Discord Wars by dilk.club - Season 1<br><br></h2>
+      <img src="img/ip.gif" alt="Server IP" class="responsive-image">
+      <p><br>Welcome to what we're hoping will be the first of many seasons of Discord Wars! We pretty much all steam through Minecraft 1-2 times a year, the goal of this server is to have all of our groups do so in one place with a dash of competition.<br> <br>Each group can make their team in game and players will earn points for their team as they progress through the game at it's various milestones. Team/group points will be displayed via in game leaderboard. The specifics of what will earn how many points is still being worked out and once we have it finalized they will be added to the "Game Objectives" page.<br><br> Join the Discord using the link below to stay up to date, ask questions or give suggestions!</p>
+      <div class="bottom-image-wrapper">
+        <a href="https://discord.com/invite/7xfARtcPNR" target="_blank">
+          <img src="img/discord.png" alt="Click Me" class="hover-expand-image">
         </a>
       </div>
     </div>
+	
+	<div id="tab2" class="tab-content">
+		<h2 class="home-title">Leaderboard<br><br></h2>
+		<div id="leaderboard-content">
+        <p>Loading leaderboard...</p>
+		</div>
+	</div>
 
-    <audio id="audio" src="do_it.mp3"></audio>
+    <div id="tab3" class="tab-content">
+      <h2 class="home-title">TBA<br><br></h2>
+      <img src="img/comingsoon.jpg" alt="Coming Soon" class="responsive-image">
+      <p><br><br>These should be finalized in the coming weeks. :-)</p>
+    </div>
+
+    <div id="tab4" class="tab-content">
+      <h2>Rules</h2>
+      <p><br>We're adults, there are no fucking rules. But if enough players collectively deem you a fun sucking vulture, you're probably getting yeeted.</p>
+    </div>
+	
   </div>
 
   <script>
-    document.addEventListener('contextmenu', event => event.preventDefault());
-
-    const numberOfEggs = 9;
-    const eggs = [];
-
-    const isMobile = window.innerWidth <= 768;
-    const eggSize = isMobile ? 16 : 3; // Increased size for mobile
-    const speed = isMobile ? 2 : 6;
-
-    function createEggs() {
-      for (let i = 0; i < numberOfEggs; i++) {
-        const egg = document.createElement('img');
-        egg.src = `img/head${i + 1}.png`;
-        egg.alt = 'Egg';
-        egg.className = 'egg';
-        egg.style.width = `${eggSize}%`;
-        document.body.appendChild(egg);
-
-        eggs.push({
-          element: egg,
-          x: Math.random() * (window.innerWidth - egg.clientWidth),
-          y: Math.random() * (window.innerHeight - egg.clientHeight),
-          xSpeed: speed * (Math.random() > 0.5 ? 1 : -1),
-          ySpeed: speed * (Math.random() > 0.5 ? 1 : -1)
-        });
-      }
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
     }
 
-    function updateEggPosition() {
-      eggs.forEach(egg => {
-        egg.x += egg.xSpeed;
-        egg.y += egg.ySpeed;
+    const backgrounds = [
+      'img/bg1.jpg',
+      'img/bg2.jpg',
+      'img/bg3.jpg',
+      'img/bg4.jpg',
+      'img/bg5.jpg',
+      'img/bg6.jpg'
+    ];
+    const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+    document.querySelector('.site-background').style.backgroundImage = `url('${randomBg}')`;
+	
+	document.addEventListener("DOMContentLoaded", function () {
+		const url = "https://teamscores.dilk.club/team_balances.txt";
+		const leaderboardContent = document.getElementById("leaderboard-content");
 
-        if (egg.x < 0 || egg.x > window.innerWidth - egg.element.clientWidth) {
-          egg.xSpeed *= -1;
-        }
+		function fetchLeaderboard() {
+			fetch(url)
+				.then(response => response.text())
+				.then(text => {
+					const formattedText = applyMinecraftColors(text);
+					leaderboardContent.innerHTML = formattedText;
+				})
+				.catch(error => {
+					console.error("Error fetching leaderboard:", error);
+					leaderboardContent.innerHTML = "<p>Failed to load leaderboard.</p>";
+				});
+		}
 
-        if (egg.y < 0 || egg.y > window.innerHeight - egg.element.clientHeight) {
-          egg.ySpeed *= -1;
-        }
+		function applyMinecraftColors(text) {
+			const colorMap = {
+				"0": "black", "1": "darkblue", "2": "darkgreen", "3": "darkcyan",
+				"4": "darkred", "5": "purple", "6": "gold", "7": "gray",
+				"8": "darkgray", "9": "blue", "a": "green", "b": "cyan",
+				"c": "red", "d": "lightpurple", "e": "yellow", "f": "white"
+			};
 
-        egg.element.style.left = `${egg.x}px`;
-        egg.element.style.top = `${egg.y}px`;
-      });
-    }
+			return text.split("\n").map(line => {
+				const [left, ...rightParts] = line.split("-");
+				const right = rightParts.join("-");
 
-    function getRandomButtonText() {
-      const buttonTexts = [
-        "drink the dilk",
-        "dive into the dilk",
-        "gargle the dilk",
-        "become one with the dilk",
-        "follow the dilk",
-        "snort some dilk",
-        "bathe in the dilk"
-      ];
-      return buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
-    }
+				let result = "";
+				let openTag = "";
+				let i = 0;
 
-    function playAudio() {
-      const audio = document.getElementById('audio');
-      audio.play();
-    }
+				while (i < left.length) {
+					if (left[i] === "&" && i + 1 < left.length && colorMap[left[i + 1]]) {
+						if (openTag) result += "</span>"; // close previous tag
+						const color = colorMap[left[i + 1]];
+						result += `<span style="color: ${color};">`;
+						openTag = "</span>";
+						i += 2;
+					} else {
+						result += left[i];
+						i++;
+					}
+				}
 
-    // Initialization
-    createEggs();
-    setInterval(updateEggPosition, 20);
+				if (openTag) result += "</span>"; // close last tag if needed
 
-    document.getElementById('randomButton').innerText = getRandomButtonText();
+				return result + (right ? ` - ${right}` : "");
+			}).join("<br>");
+		}
 
-    const backgroundImages = ["img/bg1.jpeg", "img/bg2.jpeg", "img/bg3.jpeg"];
-    const randomBackground = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-    document.getElementById('backgroundDiv').style.backgroundImage = `url('${randomBackground}')`;
+		fetchLeaderboard();
+		setInterval(fetchLeaderboard, 5000); // Refresh every 5 seconds
+	});
+
+	
   </script>
 </body>
 </html>
