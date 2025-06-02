@@ -8,112 +8,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png">
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      overflow: hidden;
-      font-family: sans-serif;
-    }
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: sans-serif;
+  }
 
-    .bg {
-      height: 100%;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
+  .bg {
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
 
+  .logo {
+    max-width: clamp(150px, 40vw, 400px);
+    height: auto;
+    z-index: 10002;
+  }
+
+  .centered-button {
+    margin-top: 3vh;
+    z-index: 10001;
+    text-align: center;
+  }
+
+  .centered-button button {
+    padding: 1em 2em;
+    font-size: clamp(14px, 2vw, 18px);
+    border: none;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, background 0.3s;
+    cursor: pointer;
+  }
+
+  .centered-button button:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .hover-image-container {
+    margin-top: 2rem;
+  }
+
+  .hover-image {
+    width: clamp(30px, 6vw, 60px);
+    transition: transform 0.3s ease;
+  }
+
+  .hover-image:hover {
+    transform: scale(1.5);
+  }
+
+  .egg {
+    position: fixed;
+    cursor: pointer;
+    user-select: none;
+    z-index: 9999; /* Behind content */
+    width: 3vw;
+    height: auto;
+  }
+
+  @media (max-width: 768px) {
     .egg {
-      position: fixed;
-      cursor: pointer;
-      user-select: none;
-      z-index: 10000;
-      width: 3vw;
-      height: auto;
+      width: 12vw;
     }
+  }
 
-    .logo {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 10002;
-      width: clamp(150px, 50vw, 400px);
-      height: auto;
-    }
-
-    .centered-button {
-      position: fixed;
-      bottom: 12vh;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10001;
-      text-align: center;
-    }
-
+  @media (max-width: 480px) {
     .centered-button button {
-      padding: 1em 2em;
-      font-size: clamp(14px, 2vw, 18px);
-      border: none;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s, background 0.3s;
-      cursor: pointer;
+      font-size: 14px;
+      padding: 0.75em 1.5em;
     }
-
-    .centered-button button:hover {
-      transform: scale(1.1);
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    .hover-image-container {
-      margin-top: 2rem;
-    }
-
-    .hover-image {
-      width: clamp(30px, 6vw, 60px);
-      transition: transform 0.3s ease;
-    }
-
-    .hover-image:hover {
-      transform: scale(1.5);
-    }
-
-    @media (max-width: 768px) {
-      .egg {
-        width: 12vw;
-      }
-
-      .centered-button {
-        bottom: 10vh;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .logo {
-        width: 70vw;
-      }
-
-      .centered-button button {
-        font-size: 14px;
-        padding: 0.75em 1.5em;
-      }
-    }
+  }
   </style>
 </head>
 <body>
   <div class="bg" id="backgroundDiv">
-    <img src="img/logo.gif" alt="Logo" class="logo">
-    
+    <img src="img/logo.gif" alt="Logo" class="logo" />
+
     <div class="centered-button">
       <button id="randomButton" onclick="window.location.href='https://discord.gg/7xfARtcPNR';" onmouseover="playAudio()">Join Discord</button>
       
       <div class="hover-image-container">
         <a href="https://mc.dilk.club" target="_blank">
-          <img src="img/mc.png" alt="Clickable Image" class="hover-image">
+		  <p><br><br></p>
+          <img src="img/mc.png" alt="Clickable Image" class="hover-image" />
         </a>
       </div>
     </div>
