@@ -12,6 +12,7 @@
       height: 100%;
       margin: 0;
       overflow: hidden;
+      font-family: sans-serif;
     }
 
     .bg {
@@ -25,22 +26,24 @@
       position: fixed;
       cursor: pointer;
       user-select: none;
-      z-index: 10001;
+      z-index: 10000;
+      width: 3vw;
+      height: auto;
     }
 
     .logo {
       position: fixed;
       left: 50%;
       top: 50%;
-      transform: translate(-50%, -50%) scale(0.5);
+      transform: translate(-50%, -50%);
       z-index: 10002;
-      margin: 0 auto;
-      width: 50%;
+      width: clamp(150px, 50vw, 400px);
+      height: auto;
     }
 
     .centered-button {
       position: fixed;
-      bottom: 175px;
+      bottom: 12vh;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10001;
@@ -48,8 +51,8 @@
     }
 
     .centered-button button {
-      padding: 12px 24px;
-      font-size: 16px;
+      padding: 1em 2em;
+      font-size: clamp(14px, 2vw, 18px);
       border: none;
       border-radius: 20px;
       background: rgba(255, 255, 255, 0.15);
@@ -67,11 +70,11 @@
     }
 
     .hover-image-container {
-      margin-top: 80px;
+      margin-top: 2rem;
     }
 
     .hover-image {
-      width: 50px;
+      width: clamp(30px, 6vw, 60px);
       transition: transform 0.3s ease;
     }
 
@@ -81,7 +84,22 @@
 
     @media (max-width: 768px) {
       .egg {
-        width: 16% !important;
+        width: 12vw;
+      }
+
+      .centered-button {
+        bottom: 10vh;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo {
+        width: 70vw;
+      }
+
+      .centered-button button {
+        font-size: 14px;
+        padding: 0.75em 1.5em;
       }
     }
   </style>
@@ -109,23 +127,25 @@
     const numberOfEggs = 9;
     const eggs = [];
 
-    const isMobile = window.innerWidth <= 768;
-    const eggSize = isMobile ? 16 : 3; // Increased size for mobile
-    const speed = isMobile ? 2 : 6;
-
     function createEggs() {
+      const isMobile = window.innerWidth <= 768;
+      const eggWidth = isMobile ? window.innerWidth * 0.12 : window.innerWidth * 0.03;
+      const speed = isMobile ? 2 : 6;
+
       for (let i = 0; i < numberOfEggs; i++) {
         const egg = document.createElement('img');
         egg.src = `img/head${i + 1}.png`;
         egg.alt = 'Egg';
         egg.className = 'egg';
-        egg.style.width = `${eggSize}%`;
         document.body.appendChild(egg);
+
+        const width = eggWidth;
+        egg.style.width = width + 'px';
 
         eggs.push({
           element: egg,
-          x: Math.random() * (window.innerWidth - egg.clientWidth),
-          y: Math.random() * (window.innerHeight - egg.clientHeight),
+          x: Math.random() * (window.innerWidth - width),
+          y: Math.random() * (window.innerHeight - width),
           xSpeed: speed * (Math.random() > 0.5 ? 1 : -1),
           ySpeed: speed * (Math.random() > 0.5 ? 1 : -1)
         });
@@ -137,11 +157,14 @@
         egg.x += egg.xSpeed;
         egg.y += egg.ySpeed;
 
-        if (egg.x < 0 || egg.x > window.innerWidth - egg.element.clientWidth) {
+        const width = egg.element.clientWidth;
+        const height = egg.element.clientHeight;
+
+        if (egg.x < 0 || egg.x > window.innerWidth - width) {
           egg.xSpeed *= -1;
         }
 
-        if (egg.y < 0 || egg.y > window.innerHeight - egg.element.clientHeight) {
+        if (egg.y < 0 || egg.y > window.innerHeight - height) {
           egg.ySpeed *= -1;
         }
 
